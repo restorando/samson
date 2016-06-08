@@ -1,7 +1,7 @@
 <%= render 'projects/header', project: @project, tab: 'kubernetes' %>
 
 <section class="tabs kubernetes-section clearfix">
-  <%= render 'samson_kubernetes/navigation', tab: "tasks" %>
+  <%= render 'samson_kubernetes/navigation' %>
 
   <% if @tasks.none? %>
     <%= render 'seed' %>

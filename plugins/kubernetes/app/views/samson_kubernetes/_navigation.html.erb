@@ -1,9 +1,9 @@
 <%# duplicates the js navigation %>
 <ul class="nav nav-tabs">
-  <li class="<%= tab == 'roles' ? 'active' : nil %>">
+  <li class="<%= params[:controller] == 'kubernetes/roles' ? 'active' : nil %>">
     <%= link_to "Roles", "/projects/#{@project.permalink}/kubernetes/roles" %>
   </li>
-  <li class="<%= tab == 'tasks' ? 'active' : nil %>">
+  <li class="<%= params[:controller] == 'kubernetes/tasks' ? 'active' : nil %>">
       <%= link_to "Tasks", project_kubernetes_tasks_path(@project) %>
   </li>
   <li><%= link_to "Releases", "/projects/#{@project.permalink}/kubernetes/releases" %></li>
