@@ -1,7 +1,11 @@
 <%# duplicates the js navigation %>
 <ul class="nav nav-tabs">
-  <li class="active"><%= link_to "Roles", "#" %></li>
-  <li><%= link_to "Tasks", "/projects/#{@project.permalink}/kubernetes/tasks" %></li>
+  <li class="<%= tab == 'roles' ? 'active' : nil %>">
+    <%= link_to "Roles", "/projects/#{@project.permalink}/kubernetes/roles" %>
+  </li>
+  <li class="<%= tab == 'tasks' ? 'active' : nil %>">
+      <%= link_to "Tasks", project_kubernetes_tasks_path(@project) %>
+  </li>
   <li><%= link_to "Releases", "/projects/#{@project.permalink}/kubernetes/releases" %></li>
   <li><%= link_to "Dashboard", "/projects/#{@project.permalink}/kubernetes/dashboard" %></li>
 </ul>

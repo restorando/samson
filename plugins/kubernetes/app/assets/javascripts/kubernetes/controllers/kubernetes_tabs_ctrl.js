@@ -7,11 +7,16 @@ samson.controller('KubernetesTabsCtrl', function($rootScope, $scope, $window) {
     },
     {
       index: 1,
+      title: 'Tasks',
+      state: 'kubernetes.tasks'
+    },
+    {
+      index: 2,
       title: 'Releases',
       state: 'kubernetes.releases'
     },
     {
-      index: 2,
+      index: 3,
       title: 'Dashboard',
       state: 'kubernetes.dashboard'
     }
