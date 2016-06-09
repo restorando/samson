@@ -9,6 +9,7 @@ module Kubernetes
 
     belongs_to :project, inverse_of: :kubernetes_tasks
     has_many :kubernetes_jobs,
+      -> { order(created_at: :desc) },
       foreign_key: 'kubernetes_task_id',
       class_name: 'Kubernetes::Job'
 

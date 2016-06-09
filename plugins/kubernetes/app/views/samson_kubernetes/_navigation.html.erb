@@ -3,7 +3,7 @@
   <li class="<%= params[:controller] == 'kubernetes/roles' ? 'active' : nil %>">
     <%= link_to "Roles", "/projects/#{@project.permalink}/kubernetes/roles" %>
   </li>
-  <li class="<%= params[:controller] == 'kubernetes/tasks' ? 'active' : nil %>">
+  <li class="<%= params[:controller].in?(['kubernetes/tasks', 'kubernetes/kubernetes_jobs']) ? 'active' : nil %>">
       <%= link_to "Tasks", project_kubernetes_tasks_path(@project) %>
   </li>
   <li><%= link_to "Releases", "/projects/#{@project.permalink}/kubernetes/releases" %></li>

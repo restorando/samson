@@ -52,9 +52,9 @@ module Kubernetes
     end
 
     def set_generate_name
-      project = "gymnasium"
-      task    = "db-migrate"
-      template.metadata.generateName = "#{project}-#{task}-"
+      project_name = @doc.kubernetes_task.project.name
+      task_name    = @doc.kubernetes_task.name
+      template.metadata.generateName = "#{project_name}-#{task_name}-"
     end
 
     # Sets the labels for each new Pod.

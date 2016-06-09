@@ -21,16 +21,6 @@ module Kubernetes
     validate :validate_git_reference, on: :create
     validate :validate_config_file, on: :create
 
-    def run
-      job = Kubeclient::Job.new(job_yaml.to_hash)
-      if resource_running?(job)
-        # batch_client.update_job job
-        raise "Job already running" # TODO: Check expected behaviour
-      else
-        batch_client.create_job job
-      end
-    end
-
     def raw_template
       @raw_template ||= build.file_from_repo(template_name)
     end
@@ -71,6 +61,10 @@ module Kubernetes
       update_columns(commit: commit, tag: tag)
     end
 
+    def to_partial_path
+      "kubernetes/kubernetes_jobs/job"
+    end
+
     private
 
     def status!(status)
@@ -104,10 +98,6 @@ module Kubernetes
           errors.add(:build, "does not contain config file '#{template_name}'")
         end
       end
-    end
-
-    def namespace
-      deploy_group.kubernetes_namespace
     end
   end
 end

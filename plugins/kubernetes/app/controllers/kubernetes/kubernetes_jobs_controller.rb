@@ -13,12 +13,11 @@ class Kubernetes::KubernetesJobsController < ApplicationController
   def create
     Kubernetes::JobService.new(current_user).run!(@task, job_params)
 
-    # redirect_to :index
-    redirect_to "/projects/gymnasium/kubernetes/tasks/1/jobs/new"
+    redirect_to project_kubernetes_task_kubernetes_jobs_path
   end
 
   def index
-    @jobs = Kubernetes::Jobs.where(kubernetes_task_id: params[:id])
+    @jobs = @task.kubernetes_jobs.page(params[:page])
   end
 
   private

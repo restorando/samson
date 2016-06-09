@@ -22,9 +22,6 @@ Samson::Application.routes.draw do
         collection do
           post :seed
         end
-        member do
-          post :run
-        end
         resources :kubernetes_jobs, only: [:new, :create, :index], path: :jobs
       end
     end

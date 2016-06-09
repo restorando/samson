@@ -7,6 +7,7 @@ module Kubernetes
     belongs_to :kubernetes_task, class_name: 'Kubernetes::Task'
     belongs_to :build
     belongs_to :deploy_group
+    belongs_to :job
 
     validates :deploy_group, presence: true
     validates :kubernetes_task, presence: true
