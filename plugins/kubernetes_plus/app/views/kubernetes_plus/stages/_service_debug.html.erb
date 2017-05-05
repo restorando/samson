@@ -1,0 +1,26 @@
+<div class="table table-hover table-condensed">
+  <table class="table">
+    <tr>
+      <th>Pod name</th>
+      <th>Status</th>
+      <th>Container Restarts</th>
+      <th>Environment (main container)</th>
+    </tr>
+    <tr>
+      <% service.pods.each do |pod| %>
+        <td><%= pod.metadata.name %></td>
+        <td><%= pod.status.phase %></td>
+        <td>
+          <ul>
+            <% pod.status.containerStatuses.each do |status| %>
+              <li><%= status.name %> : <%= status.restartCount %></li>
+            <% end %>
+          </ul>
+        </td>
+        <td>
+          <pre class="pre-command pre-inline"><%= pod.containers.first.environment %></pre>
+        </td>
+      <% end %>
+    </tr>
+  </table>
+</div>
