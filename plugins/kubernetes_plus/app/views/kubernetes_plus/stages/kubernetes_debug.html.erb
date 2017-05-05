@@ -1,0 +1,23 @@
+<% page_title "Kubernetes Debug #{@stage.name}" %>
+
+<%= breadcrumb @project, @stage, "kubernetes" %>
+
+<%= render 'projects/header', project: @project, tab: 'stages' %>
+
+<section class="tabs kubernetes-section clearfix">
+  <h1>
+    <%= @stage.name %>
+    <%= image_tag project_stage_path(@project, @stage, format: :svg, token: Rails.application.config.samson.badge_token), title: "Deploy badge" %>
+  </h1>
+
+  <h2>Services</h2>
+
+  <% @service_roles.each do |service_role| %>
+    <% @deploy_groups.each do |deploy_group| %>
+      <h3><%= service_role.service_name %> in <%= deploy_group.name %></h3>
+      <% namespaced_cluster = KubernetesPlus::NamespacedCluster.build_from_deploy_group(deploy_group) %>
+      <%= render "service_debug", service: namespaced_cluster.get_service(service_role.service_name) %>
+    <% end %>
+  <% end %>
+
+</section>

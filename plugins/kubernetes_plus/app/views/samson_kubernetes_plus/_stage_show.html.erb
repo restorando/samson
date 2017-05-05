@@ -1,0 +1,3 @@
+<% if @stage.kubernetes %>
+  <h2><%= link_to "Kubernetes Debug", kubernetes_debug_project_stage_path(@stage.project) %></h2>
+<% end %>
