@@ -24,7 +24,7 @@ COPY Gemfile.lock /app/
 COPY vendor/cache /app/vendor/cache
 COPY plugins /app/plugins
 
-RUN bundle install --quiet --local --jobs 4 || bundle check
+RUN bundle install --quiet --jobs 4 || bundle check
 
 # Code
 COPY config /app/config
@@ -34,6 +34,9 @@ COPY lib /app/lib
 # Assets
 COPY vendor/assets /app/vendor/assets
 RUN echo "takes 5 minute" && RAILS_ENV=production PRECOMPILE=1 bundle exec rake assets:precompile
+
+RUN mkdir ~/.ssh
+RUN echo 'IdentityFile ~/.ssh-local/id_rsa' > ~/.ssh/config
 
 EXPOSE 9080
 

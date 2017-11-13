@@ -175,7 +175,7 @@ class DeploysController < ApplicationController
   end
 
   def deploy_permitted_params
-    [:reference, :stage_id] + Samson::Hooks.fire(:deploy_permitted_params)
+    [:reference, :stage_id, env_vars: {}] + Samson::Hooks.fire(:deploy_permitted_params)
   end
 
   def reference
