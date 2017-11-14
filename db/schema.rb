@@ -21,7 +21,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.string "user_type"
     t.string "username"
     t.string "action", null: false
-    t.text "audited_changes", limit: 1073741823
+    t.text "audited_changes", limit: 4294967295
     t.integer "version", default: 0, null: false
     t.string "comment"
     t.string "remote_address"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.string "image_name"
     t.index ["created_by"], name: "index_builds_on_created_by"
     t.index ["external_id"], name: "index_builds_on_external_id", unique: true, length: { external_id: 191 }
-    t.index ["git_sha", "dockerfile"], name: "index_builds_on_git_sha_and_dockerfile", unique: true
+    t.index ["git_sha", "dockerfile"], name: "index_builds_on_git_sha_and_dockerfile", unique: true, length: { git_sha: 80, dockerfile: 80 }
     t.index ["git_sha", "image_name"], name: "index_builds_on_git_sha_and_image_name", unique: true, length: { git_sha: 80, image_name: 80 }
     t.index ["project_id"], name: "index_builds_on_project_id"
   end
@@ -130,7 +130,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
   create_table "environment_variable_groups", id: :integer, force: :cascade do |t|
     t.string "name", null: false
     t.text "comment"
-    t.index ["name"], name: "index_environment_variable_groups_on_name", unique: true
+    t.index ["name"], name: "index_environment_variable_groups_on_name", unique: true, length: { name: 191 }
   end
 
   create_table "environment_variables", id: :integer, force: :cascade do |t|
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "permalink", null: false
-    t.index ["permalink"], name: "index_environments_on_permalink", unique: true
+    t.index ["permalink"], name: "index_environments_on_permalink", unique: true, length: { permalink: 191 }
   end
 
   create_table "flowdock_flows", id: :integer, force: :cascade do |t|
@@ -186,7 +186,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.string "tag"
     t.integer "canceller_id"
     t.index ["project_id"], name: "index_jobs_on_project_id"
-    t.index ["status"], name: "index_jobs_on_status"
+    t.index ["status"], name: "index_jobs_on_status", length: { status: 191 }
     t.index ["user_id"], name: "index_jobs_on_user_id"
   end
 
@@ -194,8 +194,8 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.integer "kubernetes_cluster_id", null: false
     t.integer "deploy_group_id", null: false
     t.string "namespace", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["deploy_group_id"], name: "index_kubernetes_cluster_deploy_groups_on_deploy_group_id"
     t.index ["kubernetes_cluster_id"], name: "index_kuber_cluster_deploy_groups_on_kuber_cluster_id"
   end
@@ -203,10 +203,10 @@ ActiveRecord::Schema.define(version: 20171110221726) do
   create_table "kubernetes_clusters", id: :integer, force: :cascade do |t|
     t.string "name"
     t.string "description"
-    t.string "config_filepath"
-    t.string "config_context"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string "config_filepath"
+    t.string "config_context"
     t.string "ip_prefix"
   end
 
@@ -291,7 +291,7 @@ ActiveRecord::Schema.define(version: 20171110221726) do
   create_table "new_relic_applications", id: :integer, force: :cascade do |t|
     t.string "name"
     t.integer "stage_id"
-    t.index ["stage_id", "name"], name: "index_new_relic_applications_on_stage_id_and_name", unique: true
+    t.index ["stage_id", "name"], name: "index_new_relic_applications_on_stage_id_and_name", unique: true, length: { name: 191 }
   end
 
   create_table "oauth_access_grants", id: :integer, force: :cascade do |t|
@@ -482,8 +482,8 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.boolean "deploy_on_release", default: false, null: false
     t.boolean "comment_on_zendesk_tickets", default: false, null: false
     t.boolean "production", default: false, null: false
-    t.string "permalink", null: false
     t.boolean "use_github_deployment_api", default: false, null: false
+    t.string "permalink", null: false
     t.text "dashboard"
     t.boolean "email_committers_on_automated_deploy_failure", default: false, null: false
     t.string "static_emails_on_automated_deploy_failure"
@@ -492,15 +492,15 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.string "next_stage_ids"
     t.boolean "no_code_deployed", default: false, null: false
     t.boolean "docker_binary_plugin_enabled", default: false, null: false
+    t.boolean "kubernetes", default: false, null: false
     t.boolean "is_template", default: false, null: false
-    t.boolean "notify_airbrake", default: false, null: false
     t.integer "template_stage_id"
     t.boolean "jenkins_email_committers", default: false, null: false
-    t.boolean "kubernetes", default: false, null: false
     t.boolean "run_in_parallel", default: false, null: false
     t.boolean "jenkins_build_params", default: false, null: false
     t.boolean "cancel_queued_deploys", default: false, null: false
     t.boolean "no_reference_selection", default: false, null: false
+    t.boolean "notify_airbrake", default: false, null: false
     t.boolean "periodical_deploy", default: false, null: false
     t.index ["project_id", "permalink"], name: "index_stages_on_project_id_and_permalink", unique: true, length: { permalink: 191 }
     t.index ["template_stage_id"], name: "index_stages_on_template_stage_id"
@@ -518,8 +518,8 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.integer "project_id", null: false
     t.integer "user_id", null: false
     t.integer "role_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["project_id"], name: "index_user_project_roles_on_project_id"
     t.index ["user_id", "project_id"], name: "index_user_project_roles_on_user_id_and_project_id", unique: true
   end
@@ -573,8 +573,8 @@ ActiveRecord::Schema.define(version: 20171110221726) do
     t.datetime "updated_at"
     t.datetime "deleted_at"
     t.string "source", null: false
-    t.index ["project_id", "branch"], name: "index_webhooks_on_project_id_and_branch"
-    t.index ["stage_id", "branch"], name: "index_webhooks_on_stage_id_and_branch"
+    t.index ["project_id", "branch"], name: "index_webhooks_on_project_id_and_branch", length: { branch: 191 }
+    t.index ["stage_id", "branch"], name: "index_webhooks_on_stage_id_and_branch", length: { branch: 191 }
   end
 
   add_foreign_key "deploy_groups", "environments"
