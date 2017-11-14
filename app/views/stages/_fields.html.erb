@@ -32,7 +32,7 @@
   <%= form.input :confirm, as: :check_box, label: confirm_label, help: "Show a review page before starting a deploy" %>
 
   <% if @stage.one_off_env_vars? %>
-    <%= form.input :one_off_env_vars, as: :check_box, label: one_off_labels, help: "Enable Environment Variables to be set before each deploy" %>
+    <%= form.input :one_off_env_vars, as: :check_box, label: one_off_labels, help: "Enables custom Env Vars before each deploy. Requires 'Disable Reference Selection' = False OR 'Confirm before each deployment' = True" %>
   <% end %>
 
   <%= form.input :no_reference_selection, as: :check_box, label: "Disable reference selection", help: no_ref_label %>

@@ -90,17 +90,18 @@ class Stage < ActiveRecord::Base
 
   def create_deploy(user, attributes = {})
     before_command = attributes.delete(:before_command)
+    env_vars = attributes.delete(:env_vars)
     deploys.create(attributes.merge(release: !no_code_deployed, project: project)) do |deploy|
       commands = before_command.to_s.dup << script
-      if @stage.one_off_env_vars?
-        prepend_one_off_env_vars_to_commands(attributes, commands)
+      if one_off_env_vars?
+        prepend_one_off_env_vars_to_commands(env_vars, commands)
       end
       deploy.build_job(project: project, user: user, command: commands, commit: deploy.reference)
     end
   end
 
-  def prepend_one_off_env_vars_to_commands(attributes, commands)
-    env_vars = attributes.delete(:env_vars)
+  def prepend_one_off_env_vars_to_commands(env_vars, commands)
+    return unless ! env_vars.nil?
     env_vars.keys.reverse.map { |i| env_vars.dig(i).to_h }.map do |hsh|
       commands.prepend "export #{hsh.fetch(:name).shellescape}=#{hsh.fetch(:value).shellescape}\n"
     end
