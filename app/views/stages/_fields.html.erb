@@ -19,6 +19,7 @@
     confirm_label = "Confirm before deployment"
     no_code_label = "Does not deploy code"
     no_ref_label = "When selected with '#{no_code_label}' and disabled '#{confirm_label}' the stage can be directly executed."
+    one_off_labels = "One-Off Environment Variables for Stage"
   %>
 
   <% help = "Bypass " + [("buddy check" if BuddyCheck.enabled?), "release tracking"].compact.to_sentence %>
@@ -29,6 +30,10 @@
   <%= form.input :cancel_queued_deploys, as: :check_box, label: "Max 1 queued deploy per user", help: "When a new deploy is created for a user. Any queued deploys for that user are cancelled. This most useful when trying to not deploy every push for frequently updated projects." %>
 
   <%= form.input :confirm, as: :check_box, label: confirm_label, help: "Show a review page before starting a deploy" %>
+
+  <% if @stage.one_off_env_vars? %>
+    <%= form.input :one_off_env_vars, as: :check_box, label: one_off_labels, help: "Enable Environment Variables to be set before each deploy" %>
+  <% end %>
 
   <%= form.input :no_reference_selection, as: :check_box, label: "Disable reference selection", help: no_ref_label %>
 
