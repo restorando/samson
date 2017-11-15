@@ -15,6 +15,7 @@ services:
     stdin_open: true
     volumes:
       - ./app:/app/app/
+      - ./plugins:/app/plugins
       - ~/.ssh:/root/.ssh-local:ro
 
   memcached:
