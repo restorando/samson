@@ -103,6 +103,7 @@ group :development, :test do
   gem 'bootsnap'
   gem 'pry-rails'
   gem 'pry'
+  gem 'pry-nav'
   gem 'awesome_print'
   gem 'brakeman'
   gem 'rubocop'
