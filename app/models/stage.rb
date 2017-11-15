@@ -68,6 +68,10 @@ class Stage < ActiveRecord::Base
     )
   end
 
+  def self.one_off_stages_enabled?
+    ENV['ONE_OFF_ENV_VARS_FOR_STAGE'].present?
+  end
+
   def current_deploy
     return @current_deploy if defined?(@current_deploy)
     @current_deploy = deploys.active.first
@@ -207,7 +211,7 @@ class Stage < ActiveRecord::Base
   end
 
   def one_off_env_vars?
-    ENV['ONE_OFF_ENV_VARS_FOR_STAGE'].present?
+    self.one_off_env_vars == true
   end
 
   private
