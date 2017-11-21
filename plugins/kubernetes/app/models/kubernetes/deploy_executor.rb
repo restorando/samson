@@ -57,6 +57,12 @@ module Kubernetes
       release = create_release
 
       prerequisites, deploys = release.release_docs.partition(&:prerequisite?)
+      single_role_deploys, deploys = deploys.partition(&:single_role_deploy?)
+
+      if single_role_deploys.any?
+        @output.puts "Running one off job ..."
+        deploy_and_watch(release, single_role_deploys)
+      end
       if prerequisites.any?
         @output.puts "First deploying prerequisite ..." if deploys.any?
         return false unless deploy_and_watch(release, prerequisites)

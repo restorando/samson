@@ -25,6 +25,10 @@ module Kubernetes
         @template.dig(*RoleConfigFile::PREREQUISITE)
       end
 
+      def single_role_deploy?
+        @template.dig(*RoleConfigFile::SINGLE_ROLE_DEPLOY)
+      end
+
       def primary?
         Kubernetes::RoleConfigFile::PRIMARY_KINDS.include?(@template.fetch(:kind))
       end
