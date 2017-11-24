@@ -36,9 +36,6 @@ COPY lib /app/lib
 COPY vendor/assets /app/vendor/assets
 RUN echo "takes 5 minute" && RAILS_ENV=production PRECOMPILE=1 bundle exec rake assets:precompile
 
-RUN mkdir ~/.ssh
-RUN echo 'IdentityFile ~/.ssh-local/id_rsa' > ~/.ssh/config
-
 EXPOSE 9080
 
 CMD ["bundle", "exec", "puma", "-C", "./config/puma.rb"]
