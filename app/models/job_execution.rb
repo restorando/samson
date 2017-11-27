@@ -159,6 +159,7 @@ class JobExecution
       production: stage&.production?
     }
 
+    Kubernetes::DeployExecutor
     ActiveSupport::Notifications.instrument("execute_job.samson", payload) do
       payload[:success] =
         if defined?(Kubernetes::DeployExecutor) && stage&.kubernetes
