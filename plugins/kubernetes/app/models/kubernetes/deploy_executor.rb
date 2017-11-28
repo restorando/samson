@@ -61,7 +61,7 @@ module Kubernetes
 
       if single_role_deploys.any?
         @output.puts "Running one off job ..."
-        deploy_and_watch(release, single_role_deploys)
+        return deploy_and_watch(release, single_role_deploys)
       end
       if prerequisites.any?
         @output.puts "First deploying prerequisite ..." if deploys.any?
