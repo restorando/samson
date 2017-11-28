@@ -40,8 +40,7 @@ class DockerBuilderService
         credentials = DockerRegistry.all.select { |r| r.password && r.username }.map do |r|
           username = r.username.shellescape
           password = r.password.shellescape
-          email = (docker_major_version >= 17 ? "" : "--email no@example.com ")
-          "docker login --username #{username} --password #{password} #{email}#{r.host.shellescape}"
+          "docker login --username #{username} --password #{password} #{r.host.shellescape}"
         end
 
         # run commands and then cleanup after
