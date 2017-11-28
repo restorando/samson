@@ -15,7 +15,9 @@ class DockerBuilderService
         tag = " -t #{tag.shellescape}" if tag
         file = " -f #{dockerfile.shellescape}"
         cache_from = " --cache-from #{cache_from.shellescape}" if cache_from
-        build = "docker build#{file}#{tag} .#{cache_from}"
+        # FIXME: remove this hardcoded docker daemon host and maybe use an environment variable to specify it,
+        # like it was done before with the docker gem.
+        build = "docker -H samson-worker:2375 build#{file}#{tag} .#{cache_from}"
         executor = TerminalExecutor.new(output)
         return unless executor.execute(
           "cd #{dir.shellescape}",
@@ -40,7 +42,9 @@ class DockerBuilderService
         credentials = DockerRegistry.all.select { |r| r.password && r.username }.map do |r|
           username = r.username.shellescape
           password = r.password.shellescape
-          "docker login --username #{username} --password #{password} #{r.host.shellescape}"
+          # FIXME: remove this hardcoded docker daemon host and maybe use an environment variable to specify it,
+          # like it was done before with the docker gem.
+          "docker -H samson-worker:2375 login --username #{username} --password #{password} #{r.host.shellescape}"
         end
 
         # run commands and then cleanup after
