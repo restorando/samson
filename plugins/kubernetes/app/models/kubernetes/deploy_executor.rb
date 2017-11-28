@@ -230,7 +230,7 @@ module Kubernetes
           {live: false, stop: true, details: "Restarted", pod: pod}
         elsif pod.failed?
           {live: false, stop: true, details: "Failed", pod: pod}
-        elsif release_doc.prerequisite? ? pod.completed? : pod.live?
+        elsif (release_doc.single_role_deploy? or release_doc.prerequisite?) ? pod.completed? : pod.live?
           {live: true, details: "Live", pod: pod}
         elsif pod.events_indicate_failure?
           {live: false, stop: true, details: "Error", pod: pod}
