@@ -8,7 +8,7 @@ module Kubernetes
     belongs_to :deploy_group
 
     serialize :resource_template, JSON
-    delegate :desired_pod_count, :prerequisite?, to: :primary_resource
+    delegate :desired_pod_count, :prerequisite?, :single_role_deploy?, to: :primary_resource
     delegate :images, to: :verification_template
 
     validates :deploy_group, presence: true
