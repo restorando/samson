@@ -8,7 +8,8 @@
     // hide command section when kubernetes is selected
     var $checkbox = $("#stage_kubernetes");
     $checkbox.change(function(){
-      $("#commands").parent('fieldset').toggle(!$(this).is(':checked'))
+      $("#commands").parent('fieldset').toggle(!$(this).is(':checked'));
+      $("#single_role_kubernetes_deploy").parent('div').toggle($(this).is(':checked'));
     });
     $checkbox.trigger('change');
   });

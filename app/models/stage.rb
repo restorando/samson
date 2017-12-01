@@ -72,6 +72,10 @@ class Stage < ActiveRecord::Base
     ENV['ONE_OFF_ENV_VARS_FOR_STAGE'].present?
   end
 
+  def self.single_role_kubernetes_deploy?
+    ENV['SINGLE_ROLE_K8S_DEPLOY'].present?
+  end
+
   def current_deploy
     return @current_deploy if defined?(@current_deploy)
     @current_deploy = deploys.active.first

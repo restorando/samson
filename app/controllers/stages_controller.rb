@@ -128,6 +128,7 @@ class StagesController < ApplicationController
       :periodical_deploy,
       :no_reference_selection,
       :one_off_env_vars,
+      :single_role_kubernetes_deploy,
       {
         deploy_group_ids: [],
         command_ids: []

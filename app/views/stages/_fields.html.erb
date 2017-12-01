@@ -51,6 +51,9 @@
           help: "This stage can serve as a template to create new stages for its environment (only changing the deploy group)."
     %>
   <% end %>
+  <% if Stage.single_role_kubernetes_deploy? %>
+    <%= render 'single_role_kubernetes_deploy', form: form %>
+  <% end %>
 </fieldset>
 
 <%= render 'commands', form: form %>
